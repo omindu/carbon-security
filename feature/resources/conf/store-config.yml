@@ -16,6 +16,13 @@
 enableCache: true
 credentialStore:
  connector: "#JDBCCS1"
+ EventListeners:
+  EventListener:
+   -
+    #_type: "org.wso2.carbon.user.core.listener.UserOperationEventListener"
+    _name: "org.wso2.carbon.user.mgt.workflow.userstore.UserStoreActionListener"
+    _orderId: 10
+    _enable: true
 identityStore:
  connector: "#JDBCIS1"
 authorizationStore:

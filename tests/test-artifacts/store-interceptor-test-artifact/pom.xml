@@ -15,24 +15,24 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.wso2.carbon.security.caas.tests</groupId>
-        <artifactId>carbon-security-caas-tests</artifactId>
+        <artifactId>carbon-security-caas-test-artifacts</artifactId>
+        <groupId>org.wso2.carbon.security.caas.tests.artifacts</groupId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <groupId>org.wso2.carbon.security.caas.tests.artifacts</groupId>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>carbon-security-caas-test-artifacts</artifactId>
+
+    <groupId>org.wso2.carbon.security.caas.tests.artifacts.interceptor</groupId>
+    <artifactId>org.wso2.carbon.security.caas.interceptor.sample.parent</artifactId>
     <packaging>pom</packaging>
-    <name>WSO2 Carbon Security CAAS - Sample Tests Artifacts</name>
+    <name>WSO2 Carbon Security CAAS - Sample Store Interceptor Test Artifact</name>
     <url>http://wso2.com</url>
 
     <modules>
-        <module>in-memory-user-store-test-artifact</module>
-        <module>store-interceptor-test-artifact</module>
+        <module>components/org.wso2.carbon.security.caas.interceptor.sample</module>
     </modules>
-
 </project>

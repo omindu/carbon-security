@@ -23,8 +23,13 @@ import org.wso2.carbon.security.caas.user.core.common.CarbonRealmServiceImpl;
 import org.wso2.carbon.security.caas.user.core.store.connector.AuthorizationStoreConnectorFactory;
 import org.wso2.carbon.security.caas.user.core.store.connector.CredentialStoreConnectorFactory;
 import org.wso2.carbon.security.caas.user.core.store.connector.IdentityStoreConnectorFactory;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.AuthorizationStoreInterceptor;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.CredentialStoreInterceptor;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.IdentityStoreInterceptor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +46,9 @@ public class CarbonSecurityDataHolder {
     private CarbonCachingService carbonCachingService;
     private ClaimConfig claimConfig;
     private BundleContext bundleContext = null;
+    private List<AuthorizationStoreInterceptor> authorizationStoreInterceptors = new ArrayList<>();
+    private List<CredentialStoreInterceptor> credentialStoreInterceptors = new ArrayList<>();
+    private List<IdentityStoreInterceptor> identityStoreInterceptors = new ArrayList<>();
 
     private CarbonSecurityDataHolder() {
     }
@@ -134,4 +142,83 @@ public class CarbonSecurityDataHolder {
     public void setClaimConfig(ClaimConfig claimConfig) {
         this.claimConfig = claimConfig;
     }
+
+    /**
+     * Retrieve a sorted list of AuthorizationStoreInterceptor.
+     *
+     * @return List of sorted AuthorizationStoreInterceptor.
+     */
+    public List<AuthorizationStoreInterceptor> getAuthorizationStoreInterceptors() {
+        return authorizationStoreInterceptors;
+    }
+
+    /**
+     * Adds an AuthorizationStoreInterceptor to the interceptor list.
+     * The function will sort the interceptor list when adding a interceptor.
+     * 
+     * @param authorizationStoreInterceptor AuthorizationStoreInterceptor.
+     */
+    public void registerAuthorizationStoreInterceptor(AuthorizationStoreInterceptor authorizationStoreInterceptor) {
+
+        if (authorizationStoreInterceptor.isEnabled()) {
+            authorizationStoreInterceptors.add(authorizationStoreInterceptor);
+            authorizationStoreInterceptors.sort((authzStoreInterceptor1, authzStoreInterceptor2) ->
+                                                        authzStoreInterceptor1.getExecutionOrderId() -
+                                                        authzStoreInterceptor2.getExecutionOrderId());
+        }
+    }
+
+    /**
+     * Retrieve a sorted list of CredentialStoreInterceptors.
+     *
+     * @return List of sorted CredentialStoreInterceptors.
+     */
+    public List<CredentialStoreInterceptor> getCredentialStoreInterceptors() {
+        return credentialStoreInterceptors;
+    }
+
+    /**
+     * Adds a CredentialStoreInterceptor to the interceptor list.
+     * The function will sort the interceptor list when adding a interceptor.
+     *
+     * @param credentialStoreInterceptor CredentialStoreInterceptor.
+     */
+    public void registerCredentialStoreInterceptor(CredentialStoreInterceptor credentialStoreInterceptor) {
+
+        if (credentialStoreInterceptor.isEnabled()) {
+            credentialStoreInterceptors.add(credentialStoreInterceptor);
+            credentialStoreInterceptors.sort((credStoreInterceptor1, credStoreInterceptor2) ->
+                                                     credStoreInterceptor1.getExecutionOrderId() -
+                                                     credStoreInterceptor2.getExecutionOrderId());
+
+
+        }
+    }
+
+    /**
+     * Retrieve a sorted list of IdentityStoreListeners.
+     *
+     * @return List of sorted IdentityStoreListeners.
+     */
+    public List<IdentityStoreInterceptor> getIdentityStoreInterceptors() {
+        return identityStoreInterceptors;
+    }
+
+    /**
+     * Adds a IdentityStoreInterceptor to the interceptor list.
+     * The function will sort the interceptor list when adding a interceptor.
+     *
+     * @param identityStoreInterceptor IdentityStoreInterceptor.
+     */
+    public void registerIdentityStoreListener(IdentityStoreInterceptor identityStoreInterceptor) {
+
+        if (identityStoreInterceptor.isEnabled()) {
+            identityStoreInterceptors.add(identityStoreInterceptor);
+            identityStoreInterceptors.sort((identityStoreListener1, identityStoreListener2) ->
+                                                   identityStoreListener1.getExecutionOrderId() -
+                                                   identityStoreListener2.getExecutionOrderId());
+
+        }
+    }
+
 }

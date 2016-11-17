@@ -52,6 +52,9 @@ import org.wso2.carbon.security.caas.user.core.service.RealmService;
 import org.wso2.carbon.security.caas.user.core.store.connector.AuthorizationStoreConnectorFactory;
 import org.wso2.carbon.security.caas.user.core.store.connector.CredentialStoreConnectorFactory;
 import org.wso2.carbon.security.caas.user.core.store.connector.IdentityStoreConnectorFactory;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.AuthorizationStoreInterceptor;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.CredentialStoreInterceptor;
+import org.wso2.carbon.security.caas.user.core.store.interceptor.IdentityStoreInterceptor;
 
 import java.security.Policy;
 import java.util.ArrayList;
@@ -224,6 +227,53 @@ public class CarbonSecurityComponent {
     protected void unregisterClaimManager(ClaimManager claimManager) {
 
         CarbonSecurityDataHolder.getInstance().getCarbonRealmService().setClaimManager(null);
+    }
+
+    @Reference(
+            name = "AuthorizationStoreInterceptor",
+            service = AuthorizationStoreInterceptor.class,
+            cardinality = ReferenceCardinality.MULTIPLE,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterAuthorizationStoreInterceptor"
+    )
+    protected void registerAuthorizationStoreInterceptor(AuthorizationStoreInterceptor authorizationStoreInterceptor) {
+        CarbonSecurityDataHolder.getInstance().registerAuthorizationStoreInterceptor(authorizationStoreInterceptor);
+    }
+
+    protected void unregisterAuthorizationStoreInterceptor(AuthorizationStoreInterceptor
+                                                                   authorizationStoreInterceptor) {
+        //TODO
+    }
+
+
+    @Reference(
+            name = "CredentialStoreInterceptor",
+            service = CredentialStoreInterceptor.class,
+            cardinality = ReferenceCardinality.MULTIPLE,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterCredentialStoreInterceptor"
+    )
+    protected void registerCredentialStoreInterceptor(CredentialStoreInterceptor credentialStoreInterceptor) {
+        CarbonSecurityDataHolder.getInstance().registerCredentialStoreInterceptor(credentialStoreInterceptor);
+    }
+
+    protected void unregisterCredentialStoreInterceptor(CredentialStoreInterceptor credentialStoreInterceptor) {
+        //TODO
+    }
+
+    @Reference(
+            name = "IdentityStoreInterceptor",
+            service = IdentityStoreInterceptor.class,
+            cardinality = ReferenceCardinality.MULTIPLE,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterIdentityStoreListener"
+    )
+    protected void registerIdentityStoreListener(IdentityStoreInterceptor identityStoreInterceptor) {
+        CarbonSecurityDataHolder.getInstance().registerIdentityStoreListener(identityStoreInterceptor);
+    }
+
+    protected void unregisterIdentityStoreListener(IdentityStoreInterceptor identityStoreInterceptor) {
+        //TODO
     }
 
     /**
